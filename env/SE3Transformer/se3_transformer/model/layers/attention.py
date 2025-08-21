@@ -34,7 +34,18 @@ from se3_transformer.model.fiber import Fiber
 from se3_transformer.model.layers.convolution import ConvSE3, ConvSE3FuseLevel
 from se3_transformer.model.layers.linear import LinearSE3
 from se3_transformer.runtime.utils import degree_to_dim, aggregate_residual, unfuse_features
-from torch.cuda.nvtx import range as nvtx_range
+
+# Mock NVTX context manager for CPU compatibility
+class MockNVTXRange:
+    def __init__(self, name):
+        self.name = name
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+# Replace the CUDA NVTX import with our mock
+nvtx_range = MockNVTXRange
 
 
 class AttentionSE3(nn.Module):

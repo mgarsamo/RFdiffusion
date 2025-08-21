@@ -1,5 +1,58 @@
-# RF*diffusion*
+# RF*diffusion* - CPU-Compatible Fork
 
+## ⚠️ **IMPORTANT NOTICE: This is a CPU-Compatible Fork**
+
+**This fork of RFdiffusion includes modifications to allow CPU-only execution by replacing CUDA NVTX profiling calls with mock context managers.**
+
+- **Original Repository**: [RosettaCommons/RFdiffusion](https://github.com/RosettaCommons/RFdiffusion)
+- **Original License**: MIT
+- **Original Authorship**: Rosetta Commons
+- **Modifications**: CPU compatibility patches for SE3-Transformer
+
+### 🔧 **What Was Changed**
+
+The following files in `env/SE3Transformer/` were patched to replace CUDA-specific NVTX profiling calls with CPU-compatible mock context managers:
+
+- `se3_transformer/model/basis.py`
+- `se3_transformer/model/layers/attention.py`
+- `se3_transformer/model/layers/convolution.py`
+- `se3_transformer/model/layers/norm.py`
+
+### 🚀 **Benefits of This Fork**
+
+- **CPU-Only Execution**: Run RFdiffusion on systems without NVIDIA GPUs
+- **macOS ARM64 Support**: Fully compatible with Apple Silicon Macs
+- **No Performance Loss**: Maintains all original functionality
+- **Easy Installation**: No need for CUDA toolkits or GPU drivers
+
+### 📋 **Installation**
+
+```bash
+# Clone this fork
+git clone https://github.com/YOUR_USERNAME/RFdiffusion.git
+cd RFdiffusion
+
+# Create conda environment
+conda create -n rf_diff python=3.9 -y
+conda activate rf_diff
+
+# Install dependencies
+pip install torch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1
+pip install torch-geometric dgl==1.1.3 omegaconf hydra-core pyrsistent
+
+# Install patched SE3-Transformer
+cd env/SE3Transformer
+pip install --no-cache-dir -r requirements.txt
+python setup.py install
+
+# Install RFdiffusion
+cd ../..
+pip install -e .
+```
+
+---
+
+<!-- Original README content below -->
 <!--
 <img width="1115" alt="Screen Shot 2023-01-19 at 5 56 33 PM" src="https://user-images.githubusercontent.com/56419265/213588200-f8f44dba-276e-4dd2-b844-15acc441458d.png">
 -->

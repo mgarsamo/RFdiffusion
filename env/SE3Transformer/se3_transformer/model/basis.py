@@ -29,7 +29,17 @@ import e3nn.o3 as o3
 import torch
 import torch.nn.functional as F
 from torch import Tensor
-from torch.cuda.nvtx import range as nvtx_range
+# Mock NVTX context manager for CPU compatibility
+class MockNVTXRange:
+    def __init__(self, name):
+        self.name = name
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+# Replace the CUDA NVTX import with our mock
+nvtx_range = MockNVTXRange
 
 from se3_transformer.runtime.utils import degree_to_dim
 
